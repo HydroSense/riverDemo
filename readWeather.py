@@ -17,7 +17,7 @@ def receiving(ser):
     temp = [0]*NUM_SECS
     rain = [0]*NUM_SECS
     wind = [0]*NUM_SECS
-    plt.figure(figsize=(10,10)) # Adjust the figsize
+    plt.figure(figsize=(12,12)) # Adjust the figsize
 
     # Temperature
     plt.subplot(311) # Divides figure into 3x1 grid
@@ -31,7 +31,7 @@ def receiving(ser):
     # Rain
     plt.subplot(312)
     plt.xlabel('seconds')
-    plt.ylabel('Rain (in)')
+    plt.ylabel('Daily Rainfall (in)')
     rain_x, = plt.plot(rain)
 
     # wind
