@@ -3,6 +3,7 @@
    */
 
 #include <math.h>
+#include <Wire.h>
 
 #define MINE 3977.0f,298.15f,12000.0f
 
@@ -44,7 +45,6 @@ void rainIRQ()
 
 void wspeedIRQ()
 {
-    Serial.println("Windspeed Interrupt");
     if(millis() - lastWindIRQ > 10){
         lastWindIRQ = millis();
         windClicks ++;
@@ -86,6 +86,8 @@ void setup()
 
     Serial.begin(9600);
 
+    Wire.begin(1); //
+
     pinMode(RLED, OUTPUT);
     pinMode(GLED, OUTPUT);
     pinMode(BLED, OUTPUT);
@@ -123,6 +125,7 @@ void loop()
     delay(100);
 }
 
+// Temperature-dailyrain-windspeed
 void sendSerial()
 {
     Serial.print(Temperature(A3,MINE,10000.0f));
