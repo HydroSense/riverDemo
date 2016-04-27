@@ -38,12 +38,13 @@ void rainIRQ()
     raininterval = raintime - rainlast;
     if(raininterval > 10){ // ignore bounce glitch
         dailyrainin += 0.011;
-        rainlast = raintime; 
+        rainlast = raintime;
     }
 }
 
 void wspeedIRQ()
 {
+    Serial.println("Windspeed Interrupt");
     if(millis() - lastWindIRQ > 10){
         lastWindIRQ = millis();
         windClicks ++;
@@ -80,9 +81,9 @@ float Temperature(int AnalogInputNumber,float B,float T0,float R0,float R_Balanc
   return T;
 }
 
-void setup() 
+void setup()
 {
-    
+
     Serial.begin(9600);
 
     pinMode(RLED, OUTPUT);
@@ -92,15 +93,12 @@ void setup()
     digitalWrite(RLED, HIGH);
     //pinMode(RAIN, INPUT_PULLUP);
 
-    while(true){
-      delay(100);
-    }
     seconds = 0;
     lastSecond = millis();
 
     //Attach interrupts
     //attachInterrupt(0, rainIRQ, FALLING);
-    //attachInterrupt(1, wspeedIRQ, FALLING);
+    attachInterrupt(digitalPinToInterrupt(7), wspeedIRQ, FALLING);
     //interrupts();
 
     Serial.println("Weather online!");
@@ -134,4 +132,3 @@ void sendSerial()
     Serial.print(get_wind_speed());
     Serial.print('\n');
 }
-
