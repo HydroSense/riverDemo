@@ -3,14 +3,15 @@
    */
 
 #include <math.h>
-#include <avr/wdt.h>
-#include <Wire.h>
 
 #define MINE 3977.0f,298.15f,12000.0f
 
 // Digital IO pins
 const byte WSPEED = 19;
 const byte RAIN = 18;
+const byte GLED = 9;
+const byte BLED = 6;
+const byte RLED = 10;
 
 // Global variables
 long lastSecond;
@@ -81,26 +82,32 @@ float Temperature(int AnalogInputNumber,float B,float T0,float R0,float R_Balanc
 
 void setup() 
 {
-    wdt_reset(); 
-    wdt_disable();
     
     Serial.begin(9600);
 
-    pinMode(RAIN, INPUT_PULLUP);
+    pinMode(RLED, OUTPUT);
+    pinMode(GLED, OUTPUT);
+    pinMode(BLED, OUTPUT);
+    delay(100);
+    digitalWrite(RLED, HIGH);
+    //pinMode(RAIN, INPUT_PULLUP);
+
+    while(true){
+      delay(100);
+    }
     seconds = 0;
     lastSecond = millis();
 
     //Attach interrupts
-    attachInterrupt(0, rainIRQ, FALLING);
-    attachInterrupt(1, wspeedIRQ, FALLING);
-    interrupts();
+    //attachInterrupt(0, rainIRQ, FALLING);
+    //attachInterrupt(1, wspeedIRQ, FALLING);
+    //interrupts();
 
     Serial.println("Weather online!");
 }
 
 void loop()
 {
-    wdt_reset();
 
     if(millis() - lastSecond >= 1000){
         lastSecond += 1000;
