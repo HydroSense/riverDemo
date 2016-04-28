@@ -8,10 +8,11 @@ from time import sleep
 import numpy as np
 from matplotlib import pyplot as plt
 import re
+import argparse
 
 NUM_SECS = 300 # Size of time axis for graphing
 
-def receiving(ser):
+def receiving(sample, debug):
     ''' This function plots data from the SDI-12 sensor in realtime.
         Input: a valid instance of a serial class
         Output: a real-time plot of the data from an SDI-12 sensor
@@ -75,7 +76,11 @@ def receiving(ser):
 
     while True:
         # Read from serial line; decode binary into ascii string
-        parsed = parse_sdi12_line(ser.readline().decode('ascii'))
+        if(debug):
+            parsed = parse_sdi12_line(sample.readline())
+            sleep(1)
+        else:
+            parsed = parse_sdi12_line(sample.readline().decode('ascii'))
 
         # Example response from sensor (indicating depth, temp, conductivity);
         # 0+130+22.3+283 OR
@@ -212,5 +217,21 @@ def parse_sdi12_line(s):
 if __name__ == '__main__':
     # Modify the serial port as necessary
     # TODO: make the serial port a command line argument?
-    ser = serial.Serial('/dev/ttyACM1', 9600);
-    receiving(ser)
+    parser = argparse.ArgumentParser(description='Plot realtime weather/water data')
+    parser.add_argument('--serialPort', '-s', nargs='?', const='0', default='0', help='serial port (/dev/ttyACM[x]) [default: ttyACM0]')
+    parser.add_argument('--debug', '-d', nargs='?', const='sample.dat', default=None, help='sample file [sample.dat default]')
+
+    args = parser.parse_args()
+    print(args)
+    if args.debug is None: # use serial
+        ser = serial.Serial('/dev/ttyACM'+args.serialPort, 9600)
+        receiving(ser, False)
+    else:
+        sample = open(args.debug, 'r')
+        receiving(sample, True)
+
+    # ser = serial.Serial('/dev/ttyACM1', 9600);
+    # receiving(ser)
+    # sample = open('sample.dat', 'r')
+    # debug = True
+    # receiving(sample)
