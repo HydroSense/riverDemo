@@ -32,7 +32,7 @@ def receiving(ser):
     windDir = [0]*NUM_SECS
 
 #    plt.figure(figsize=(12,12)) # Adjust the figsize
-    plt.figure(figsize = (12,12))
+    plt.figure(figsize = (20,12))
 
     # The subplot() command specifies numrows, numcols, fignum where fignum ranges from 1 to numrows*numcols.
     # Water Temperature
@@ -45,24 +45,25 @@ def receiving(ser):
     # the single value into temp_x.
 
     # Depth
-    plt.subplot(322)
+    plt.subplot(323)
 #    plt.xlabel('seconds')
     plt.ylabel('Depth (mm)')
     depth_x, = plt.plot(depth)
 
     # Conductivity
-    plt.subplot(323)
+    plt.subplot(325)
     plt.xlabel('seconds')
     plt.ylabel('Conductivity (dS/m)')
     cond_x, = plt.plot(cond)
 
     # Air Temp
-    plt.subplot(324)
+    plt.subplot(322)
+    plt.title('Realtime Weather Station Readings')
     plt.ylabel('Air Temp')
     airTemp_x, = plt.plot(airTemp)
 
     # Wind speed
-    plt.subplot(325)
+    plt.subplot(324)
     plt.ylabel('Wind Speed')
     windSpeed_x, = plt.plot(windSpeed)
 
@@ -137,25 +138,25 @@ def receiving(ser):
             waterTemp_x.set_ydata(waterTemp)
 
             # Depth
-            plt.subplot(322)
+            plt.subplot(323)
             plt.ylim([minDepth,maxDepth])
             depth_x.set_xdata(np.arange(len(depth)))
             depth_x.set_ydata(depth)
 
             # Conductivity
-            plt.subplot(323)
+            plt.subplot(325)
             plt.ylim([minCond,maxCond])
             cond_x.set_xdata(np.arange(len(cond)))
             cond_x.set_ydata(cond)
 
             # Air temp
-            plt.subplot(324)
+            plt.subplot(322)
             plt.ylim([minAirTemp,maxAirTemp])
             airTemp_x.set_xdata(np.arange(len(airTemp)))
             airTemp_x.set_ydata(airTemp)
 
             # Wind speed
-            plt.subplot(325)
+            plt.subplot(324)
             plt.ylim([minWindSpeed,maxWindSpeed])
             windSpeed_x.set_xdata(np.arange(len(windSpeed)))
             windSpeed_x.set_ydata(windSpeed)
