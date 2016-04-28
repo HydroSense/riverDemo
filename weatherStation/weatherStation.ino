@@ -203,11 +203,9 @@ void sendI2C()
     float temp = Temperature(A4,MINE,10000.0f);
     float windSpeed = get_wind_speed();
     int windDir = get_wind_direction();
-    Serial.print("The temperature is: ");
-    Serial.println(Temperature(A4,MINE,10000.0f));
 
-    dtostrf(temp, 5, 2, str_temp);
-    dtostrf(windSpeed, 5, 2, str_temp2);
+    dtostrf(temp, 3, 2, str_temp);
+    dtostrf(windSpeed, 3, 2, str_temp2);
     sprintf(buffer, "+%s+%s+%d\n", str_temp, str_temp2, windDir);
     // sprintf(buffer, "+%.2f+%.2f+%d\n",
     //     Temperature(A3,MINE,10000.0f),
@@ -216,6 +214,7 @@ void sendI2C()
 
     Serial.print(buffer);
     Wire.print(buffer);
+
     // Wire.print(Temperature(A4,MINE,10000.0f));
     // Wire.print('+');
     // Wire.print(get_wind_speed());

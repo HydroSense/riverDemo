@@ -63,7 +63,7 @@ void setup(){
 
 void loop(){
     if(millis() - lastSecond >= 1000){
-        lastSecond += 1000;
+        lastSecond = millis();
 
         int altno = -1; // 'regular' refreshh function
 
@@ -77,7 +77,7 @@ void loop(){
           Serial.println(res);
         }
         else{
-            delay(1000);
+            delay(500); // theoretically we should wait 1 second.
             float buffer[numExpected];
             res = SDIBus->getData(addr, buffer, numExpected);
             if(res != 0){
